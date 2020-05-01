@@ -24,7 +24,15 @@ const draw = () => {
 
   ctx.fillStyle = rectangle.color;
   ctx.fillRect(
-    rectangle.x + 200,
+    rectangle.x + 425,
+    rectangle.y + 350,
+    rectangle.width,
+    rectangle.height
+  );
+
+  ctx.fillStyle = rectangle.color;
+  ctx.fillRect(
+    rectangle.x + 850,
     rectangle.y,
     rectangle.width,
     rectangle.height

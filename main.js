@@ -39,14 +39,21 @@ document.onkeydown = function (event) {
   let keyPressed = event.keyCode;
   if (keyPressed === 39) {
     player.speed = player.maxSpeed;
-  }
-  if (keyPressed === 37) {
+  } else if (keyPressed === 37) {
     player.speed = -player.maxSpeed;
   }
 };
 
 document.onkeyup = function (event) {
   player.speed = 0;
+};
+
+const checkCollisions = (rect1, rect2) => {
+  let xOverlap =
+    Math.abs(rect1.x - rect2.x) <= Math.max(rect1.width, rect2.width);
+  let yOverlap =
+    Math.abs(rect1.y - rect2.y) <= Math.max(rect1.height, rect2.height);
+  return xOverlap && yOverlap;
 };
 
 const draw = () => {
@@ -64,6 +71,9 @@ const draw = () => {
 const update = () => {
   player.moveHorizontal();
   enemies.forEach(function (element) {
+    if (checkCollisions(player, element)) {
+      alert("collision detected");
+    }
     element.moveVertical();
   });
 };

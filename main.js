@@ -27,13 +27,18 @@ class GameCharacter {
 
 // let rectangle = new GameCharacter(50, 50, 50, 50, "rgb(0, 0 ,255)");
 let enemies = [
-  new GameCharacter(200, 50, width, width, "rgb(0, 0 ,255)", 2),
-  new GameCharacter(450, screenHeight - 100, width, width, "rgb(0, 0 ,255)", 2),
-  new GameCharacter(700, 50, width, width, "rgb(0, 0 ,255)", 2),
+  new GameCharacter(200, 225, width, width, "rgb(0, 0 ,255)", 2),
+  new GameCharacter(450, screenHeight - 100, width, width, "rgb(0, 0 ,255)", 3),
+  new GameCharacter(700, 50, width, width, "rgb(0, 0 ,255)", 4),
 ];
+
+let player = new GameCharacter(50, 225, width, width, "rgb(0, 255, 0)", 2);
 
 const draw = () => {
   ctx.clearRect(0, 0, screenWidth, screenHeight);
+
+  ctx.fillStyle = player.color;
+  ctx.fillRect(player.x, player.y, player.width, player.height);
 
   enemies.forEach(function (element) {
     ctx.fillStyle = element.color;

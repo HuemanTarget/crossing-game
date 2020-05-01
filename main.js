@@ -36,7 +36,23 @@ let enemies = [
 
 let player = new GameCharacter(50, 225, width, width, "rgb(0, 255, 0)", 0);
 
-let goal = new GameCharacter(925, 140, width, 250, "rgb(128, 0, 128)", 0);
+let goal = new GameCharacter(925, 225, width, 250, "rgb(128, 0, 128)", 0);
+
+let sprites = {};
+
+const loadSprites = () => {
+  sprites.player = new Image();
+  sprites.player.src = "images/hero.png";
+
+  sprites.background = new Image();
+  sprites.background.src = "images/floor.png";
+
+  sprites.enemy = new Image();
+  sprites.enemy.src = "images/enemy.png";
+
+  sprites.goal = new Image();
+  sprites.goal.src = "images/chest.png";
+};
 
 document.onkeydown = function (event) {
   let keyPressed = event.keyCode;
@@ -62,15 +78,17 @@ const checkCollisions = (rect1, rect2) => {
 const draw = () => {
   ctx.clearRect(0, 0, screenWidth, screenHeight);
 
-  ctx.fillStyle = player.color;
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+  // ctx.fillStyle = player.color;
+  // ctx.fillRect(player.x, player.y, player.width, player.height);
+  ctx.drawImage(sprites.background, 0, 0);
+  ctx.drawImage(sprites.player, player.x, player.y);
+  ctx.drawImage(sprites.goal, goal.x, goal.y);
 
-  ctx.fillStyle = goal.color;
-  ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
+  // ctx.fillStyle = goal.color;
+  // ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
 
   enemies.forEach(function (element) {
-    ctx.fillStyle = element.color;
-    ctx.fillRect(element.x, element.y, element.width, element.height);
+    ctx.drawImage(sprites.enemy, element.x, element.y);
   });
 };
 
@@ -101,4 +119,5 @@ const step = () => {
   }
 };
 
+loadSprites();
 step();

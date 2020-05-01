@@ -13,6 +13,7 @@ class GameCharacter {
     this.height = height;
     this.color = color;
     this.speed = speed;
+    this.maxSpeed = 4;
   }
   moveVertical() {
     if (this.y > screenHeight - 100 || this.y < 50) {
@@ -32,7 +33,21 @@ let enemies = [
   new GameCharacter(700, 50, width, width, "rgb(0, 0 ,255)", 4),
 ];
 
-let player = new GameCharacter(50, 225, width, width, "rgb(0, 255, 0)", 2);
+let player = new GameCharacter(50, 225, width, width, "rgb(0, 255, 0)", 0);
+
+document.onkeydown = function (event) {
+  let keyPressed = event.keyCode;
+  if (keyPressed === 39) {
+    player.speed = player.maxSpeed;
+  }
+  if (keyPressed === 37) {
+    player.speed = -player.maxSpeed;
+  }
+};
+
+document.onkeyup = function (event) {
+  player.speed = 0;
+};
 
 const draw = () => {
   ctx.clearRect(0, 0, screenWidth, screenHeight);
@@ -47,6 +62,7 @@ const draw = () => {
 };
 
 const update = () => {
+  player.moveHorizontal();
   enemies.forEach(function (element) {
     element.moveVertical();
   });

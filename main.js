@@ -6,6 +6,9 @@ let screenHeight = 500;
 let width = 50;
 let isGameLive = true;
 
+let isRightKeyPressed = false;
+let isLeftKeyPressed = false;
+
 class GameCharacter {
   constructor(x, y, width, height, color, speed) {
     this.x = x;
@@ -27,7 +30,6 @@ class GameCharacter {
   }
 }
 
-// let rectangle = new GameCharacter(50, 50, 50, 50, "rgb(0, 0 ,255)");
 let enemies = [
   new GameCharacter(200, 225, width, width, "rgb(0, 0 ,255)", 2),
   new GameCharacter(450, screenHeight - 100, width, width, "rgb(0, 0 ,255)", 3),
@@ -57,14 +59,31 @@ const loadSprites = () => {
 document.onkeydown = function (event) {
   let keyPressed = event.keyCode;
   if (keyPressed === 39) {
+    isRightKeyPressed = true;
     player.speed = player.maxSpeed;
   } else if (keyPressed === 37) {
+    isLeftKeyPressed = true;
     player.speed = -player.maxSpeed;
   }
 };
 
 document.onkeyup = function (event) {
-  player.speed = 0;
+  let keyUp = event.keyCode;
+  if (keyUp === 39) {
+    isRightKeyPressed = false;
+    if (isLeftKeyPressed) {
+      player.speed = -player.maxSpeed;
+    } else {
+      player.speed = 0;
+    }
+  } else if (keyUp === 37) {
+    isLeftKeyPressed = false;
+    if (isRightKeyPressed) {
+      player.speed = player.maxSpeed;
+    } else {
+      player.speed = 0;
+    }
+  }
 };
 
 const checkCollisions = (rect1, rect2) => {
@@ -77,16 +96,9 @@ const checkCollisions = (rect1, rect2) => {
 
 const draw = () => {
   ctx.clearRect(0, 0, screenWidth, screenHeight);
-
-  // ctx.fillStyle = player.color;
-  // ctx.fillRect(player.x, player.y, player.width, player.height);
   ctx.drawImage(sprites.background, 0, 0);
   ctx.drawImage(sprites.player, player.x, player.y);
   ctx.drawImage(sprites.goal, goal.x, goal.y);
-
-  // ctx.fillStyle = goal.color;
-  // ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
-
   enemies.forEach(function (element) {
     ctx.drawImage(sprites.enemy, element.x, element.y);
   });
